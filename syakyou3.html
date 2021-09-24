@@ -1,0 +1,64 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <div id="g"></div>
+    <p style="clear:both"></p>
+    <p><a id="save" download="idea.txt" href="#">保存</a></p>
+    <!-- JavaScript -->
+    <script>
+        // 3×3のグリッドを作成
+        const g = document.querySelector("#g")
+        const items = []
+        for (let i = 0; i < 9; i++) {
+            const e = document.createElement("button")
+            e.innerHTML = "?"
+            e.onclick = () => {
+                //クリックした時の処理
+                const msg = prompt("アイデアは？")
+                if (!msg) { return }
+                e.innerHTML = msg.replace('&', '&amp;')
+                    .replace('>', '&gt;').replace('<', '&lt;')
+            }
+            if (i == 4) { e.className = "center" }
+            g.appendChild(e)
+            items.push(e)
+        }
+        // 保存リンクでデータをダウンロード
+        const save = document.querySelector("#save")
+        save.onclick = (e) => {
+            const m = items.map(i => i.innerHTML)
+            const text = m.join("\n")
+            const blob = new Blob([text], { "type": 'text/plain' })
+            save.href = URL.createObjectURL(blob)
+        };
+    </script>
+    <style>
+        #g {
+            width: 600px
+        }
+
+        button {
+            padding: 0px;
+            margin: 0px;
+            width: 200px;
+            height: 150px;
+            font-size: 1.3em;
+            float: left;
+        }
+
+        .center {
+            background-color: #fff0f0;
+        }
+    </style>
+
+</body>
+
+</html>

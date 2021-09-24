@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+
+<body>
+    <header>
+        <h1>MemoPad中級編</h1>
+    </header>
+    <main>
+        <input type="text" id="input">
+        <textarea id="text_area"></textarea>
+        <ul>
+            <li id="save">save</li>
+            <li id="clear">Clear</li>
+        </ul>
+    </main>
+    <footer>
+        <small>G's</small>
+    </footer>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+    <script>
+        $(function () {
+            // 1.saveをクリックした時
+            $("#save").on("click", function () {
+                var title = $("#input").val();
+                var text = $("#text_area").val();
+                var obj = {
+                    "title": title,
+                    "text": text
+                };
+                var json = JSON.stringify(obj);
+                localStorage.setItem("memo02", json);
+            });
+
+            // 2.clearをクリックした時
+            $('#clear').on('click', function () {
+                localStorage.removeItem('memo02');
+                $('#input').val('');
+                $('#text_area').val('');
+            });
+
+            // 3.ページ読み込み：保存データ取得表示
+            if (localStorage.getItem('memo02')) {
+                var json_get = localStorage.getItem('memo02');
+                var obj_get = JSON.parse(json_get);
+                $('#input').val(obj_get.title);
+                $('#text_area').val(obj_get.text);
+            }
+        });
+
+    </script>
+</body>
+
+</html>
